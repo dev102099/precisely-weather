@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Precisely weather</title>
+    <link rel="stylesheet" href="../css/weather.css" />
+  </head>
+  <body>
+    <div class="hero-container">
+      <video
+        id="hero-video"
+        src="../public/drizzle.mp4"
+        autoplay
+        muted
+        loop
+      ></video>
+      <div id="main-container" class="main-container hidden">
+        <!--division left-->
+        <div class="div-left">
+          <!--search-->
+          <div class="search-container">
+            <div id="search" class="search">
+              <input
+                id="search-input"
+                type="text"
+                placeholder="Enter City Name"
+              />
+              <div
+                id="location-icon"
+                style="
+                  background-color: rgba(157, 157, 157, 0.246);
+                  border-radius: 40px;
+                  height: 40px;
+                  width: 40px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <img
+                  id="current-location"
+                  src="../public/icons/icons8-my-location-100.png"
+                  alt="search"
+                  width="15px"
+                  height="15px"
+                />
+              </div>
+            </div>
+            <!--location-->
+            <div id="location-container" class="location-container">
+              <img
+                id="location-icon"
+                src="../public/icons/icons8-location-100.png"
+                alt="location"
+                width="25px"
+                height="25px"
+              />
+              <span id="location"></span>
+            </div>
+            <!--search results-->
+            <div id="search-results" class="hidden"></div>
+          </div>
+
+          <!--main info-->
+          <div class="main-info">
+            <div id="temp">
+              <span id="temperature"></span>
+              <span id="temp-unit">°C</span>
+
+              <img
+                id="weather-icon"
+                src=""
+                style="align-self: center"
+                alt="icon"
+                width="50"
+                height="50"
+              />
+            </div>
+            <span id="weather-condition"></span>
+            <span id="high-low"></span>
+          </div>
+        </div>
+        <!--division right-->
+        <div class="div-right">
+          <div class="forecast">
+            <span id="H-forecast">1 Hour Forecast</span>
+            <div id="cards"></div>
+          </div>
+
+          <div id="info-cards" class="info-cards">
+            <div id="uv-wind">
+              <!--uv index-->
+              <div id="uv" class="uv-index">
+                <div style="display: flex; gap: 3%; align-items: center">
+                  <img
+                    src="../public/icons/uv-index.svg"
+                    alt="logo"
+                    width="30px"
+                    height="30px"
+                  />
+                  <span
+                    style="color: white; white-space: nowrap; font-weight: 300"
+                    >UV Index</span
+                  >
+                </div>
+                <span id="uv-type" style="color: white; font-size: xx-large"
+                  >Very High Risk</span
+                >
+                <img
+                  id="uv-image"
+                  src="../public/icons/uv-index-9.svg"
+                  style="justify-self: center; align-self: center"
+                  alt="9"
+                  width="80px"
+                  height="80px"
+                />
+              </div>
+
+              <!--wind-->
+              <div id="wind">
+                <div
+                  style="
+                    display: flex;
+                    gap: 2%;
+                    align-items: center;
+                    width: fit-content;
+                  "
+                >
+                  <img
+                    src="../public/icons/windsock.svg"
+                    alt="logo"
+                    width="30px"
+                    height="30px"
+                  />
+                  <span
+                    style="color: white; white-space: nowrap; font-weight: 300"
+                    >Wind</span
+                  >
+                </div>
+                <span id="wind-desc" style="color: white; font-size: xx-large"
+                  >Calm</span
+                >
+                <img
+                  id="wind-icon"
+                  src="../public/icons/wind-beaufort-1.svg"
+                  style="justify-self: center; align-self: center"
+                  alt="9"
+                  width="80px"
+                  height="80px"
+                />
+              </div>
+            </div>
+            <div id="hum-preci">
+              <!--humidity-->
+              <div id="humidity">
+                <div style="display: flex; gap: 2%; align-items: center">
+                  <img
+                    src="../public/icons/humidity.svg"
+                    alt="logo"
+                    width="30px"
+                    height="30px"
+                  />
+                  <span
+                    style="color: white; white-space: nowrap; font-weight: 300"
+                    >Humidity</span
+                  >
+                </div>
+                <span
+                  id="humidity-percentage"
+                  style="
+                    color: white;
+                    font-size: xx-large;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                  "
+                ></span>
+                <div class="progress-track">
+                  <div id="progress-bar"></div>
+                </div>
+              </div>
+
+              <!--precipitation-->
+              <div id="precipitation">
+                <div
+                  style="
+                    display: flex;
+                    gap: 2%;
+                    align-items: center;
+                    width: fit-content;
+                  "
+                >
+                  <img
+                    src="../public/icons/raindrops.svg"
+                    alt="logo"
+                    width="30px"
+                    height="30px"
+                  />
+                  <span
+                    style="color: white; white-space: nowrap; font-weight: 300"
+                    >Precipitation</span
+                  >
+                </div>
+                <span
+                  id="expected-precipitation"
+                  style="color: white; font-size: xx-large"
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--skeleton-->
+      <div id="skeleton-container" class="main-container">
+        <!--division left-->
+        <div class="div-left">
+          <!--search-->
+          <div class="search-container">
+            <div id="search" class="search">
+              <input
+                id="search-input"
+                type="text"
+                placeholder="Enter City Name"
+              />
+              <div
+                id="location-icon"
+                style="
+                  background-color: rgba(157, 157, 157, 0.246);
+                  border-radius: 40px;
+                  height: 40px;
+                  width: 40px;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                "
+              >
+                <img
+                  id="current-location"
+                  src="../public/icons/icons8-my-location-100.png"
+                  alt="search"
+                  width="15px"
+                  height="15px"
+                />
+              </div>
+            </div>
+            <!--location-->
+            <div id="location-container" class="location-container">
+              <img
+                id="location-icon"
+                src="../public/icons/icons8-location-100.png"
+                alt="location"
+                width="25px"
+                height="25px"
+              />
+              <span id="location" class="skeleton"></span>
+            </div>
+            <!--search results-->
+            <div id="search-results" class="hidden"></div>
+          </div>
+
+          <!--main info-->
+          <div class="main-info skeleton">
+            <div style="position: relative; width: fit-content">
+              <span id="temperature"></span>
+              <span
+                id="temp-unit"
+                style="font-size: large; position: absolute; top: 15px"
+              ></span>
+            </div>
+            <span id="weather-condition"></span>
+            <span id="high-low"></span>
+          </div>
+        </div>
+        <!--division right-->
+        <div class="div-right">
+          <div class="forecast skeleton">
+            <span id="H-forecast">1 Hour Forecast</span>
+            <div id="cards"></div>
+          </div>
+
+          <div id="info-cards" class="info-cards">
+            <div id="uv-wind">
+              <!--uv index-->
+              <div id="uv" class="uv-index skeleton">
+                <div style="display: flex; gap: 3%; align-items: center">
+                  <span
+                    style="color: white; white-space: nowrap; font-weight: 300"
+                  ></span>
+                </div>
+                <span
+                  id="uv-type"
+                  style="color: white; font-size: xx-large"
+                ></span>
+              </div>
+
+              <!--wind-->
+              <div id="wind" class="skeleton">
+                <div
+                  style="
+                    display: flex;
+                    gap: 2%;
+                    align-items: center;
+                    width: fit-content;
+                  "
+                >
+                  <span
+                    style="color: white; white-space: nowrap; font-weight: 300"
+                  ></span>
+                </div>
+                <span
+                  id="wind-desc"
+                  style="color: white; font-size: xx-large"
+                ></span>
+              </div>
+            </div>
+            <div id="hum-preci">
+              <!--humidity-->
+              <div id="humidity" class="skeleton">
+                <div style="display: flex; gap: 2%; align-items: center">
+                  <img
+                    src="../public/icons/humidity.svg"
+                    alt="logo"
+                    width="30px"
+                    height="30px"
+                  />
+                  <span
+                    style="color: white; white-space: nowrap; font-weight: 300"
+                  ></span>
+                </div>
+                <span
+                  id="humidity-percentage"
+                  style="
+                    color: white;
+                    font-size: xx-large;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                  "
+                ></span>
+                <div class="progress-track">
+                  <div id="progress-bar"></div>
+                </div>
+              </div>
+
+              <!--precipitation-->
+              <div id="precipitation" class="skeleton">
+                <div
+                  style="
+                    display: flex;
+                    gap: 2%;
+                    align-items: center;
+                    width: fit-content;
+                  "
+                >
+                  <img
+                    src="../public/icons/raindrops.svg"
+                    alt="logo"
+                    width="30px"
+                    height="30px"
+                  />
+                  <span
+                    style="color: white; white-space: nowrap; font-weight: 300"
+                  ></span>
+                </div>
+                <span
+                  id="expected-precipitation"
+                  style="color: white; font-size: xx-large"
+                ></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+    <script src="../javascript/progressbar.js" type="module"></script>
+    <script src="../javascript/weather.js" type="module"></script>
+  </body>
+</html>
