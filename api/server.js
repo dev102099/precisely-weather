@@ -18,7 +18,7 @@ app.use(
   })
 );
 
-app.get("/apiCall", async (req, res) => {
+app.get("/weather", async (req, res) => {
   const { long, lat } = req.query;
   if (!long || !lat) {
     return res.status(400).json({

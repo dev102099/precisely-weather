@@ -486,7 +486,7 @@ function getWindInfo(mph) {
 const setWeatherInfo = async (latitude, longitude) => {
   try {
     const res = await fetch(
-      `http://localhost:3001/apiCall?lat=${latitude}&long=${longitude}`
+      `https://precisely-weather.onrender.com/weather?lat=${latitude}&long=${longitude}`
     );
     data = await res.json();
     if (data.success === false) {
@@ -579,7 +579,9 @@ getLocation();
 
 document.getElementById("search-input").addEventListener("input", async (e) => {
   const city = e.target.value;
-  const res = await fetch(`http://localhost:3001/searchCities?city=${city}`);
+  const res = await fetch(
+    `https://precisely-weather.onrender.com/searchCities?city=${city}`
+  );
   const data = await res.json();
   const search = document.getElementById("search-results");
   search.classList.remove("hidden");
