@@ -29,7 +29,7 @@ app.get("/weather", async (req, res) => {
     });
   }
   try {
-    const url = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${lat},${long}&day=1`;
+    const url = `https://api.weatherapi.com/v1/forecast.json?key=${API_KEY}&q=${lat},${long}&day=1&alerts=yes`;
     const response = await fetch(url);
     const weatherData = await response.json();
     if (weatherData.error) {

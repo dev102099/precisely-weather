@@ -4,6 +4,7 @@ let latitude = 0;
 let longitude = 0;
 let data = "";
 let city = null;
+
 const weatherMappings = {
   1000: {
     day: "Sunny",
@@ -489,6 +490,7 @@ const setWeatherInfo = async (latitude, longitude) => {
       `https://precisely-weather.onrender.com/weather?lat=${latitude}&long=${longitude}`
     );
     data = await res.json();
+    console.log(data);
     if (data.success === false) {
       return alert(data.message);
     }
@@ -557,26 +559,6 @@ const setWeatherInfo = async (latitude, longitude) => {
   mainContainer.classList.remove("hidden");
 };
 
-const onSuccess = async (pos, latitude, longitude) => {
-  const crd = pos.coords;
-  latitude = crd.latitude;
-  longitude = crd.longitude;
-  setWeatherInfo(latitude, longitude);
-};
-
-const onError = (err) => {
-  alert(err.message);
-};
-async function getLocation() {
-  const location = navigator.geolocation.getCurrentPosition(
-    onSuccess,
-    onError,
-    { enableHighAccuracy: true }
-  );
-}
-
-getLocation();
-
 document.getElementById("search-input").addEventListener("input", async (e) => {
   const city = e.target.value;
   const res = await fetch(
@@ -595,7 +577,7 @@ document.getElementById("search-input").addEventListener("input", async (e) => {
     const country = item.country;
     const searchCard = document.createElement("div");
     searchCard.style =
-      "display: flex;flex-direction: row;justify-content: center;align-items: center;padding: 10px;border-bottom: 1px solid rgba(255, 255, 255, 0.306);transition: background-color 0.3s ease;";
+      "display: flex;flex-direction: row;justify-content: center;align-items: center;padding: 10px;border-bottom: 1px solid rgba(255, 255, 255, 0.306);transition: background-color 0.3s ease;cursor: pointer;";
     searchCard.onmouseover = () => {
       searchCard.style.backgroundColor = "rgba(157,157,157, 0.8)";
     };
@@ -616,3 +598,26 @@ const current = document.getElementById("location-icon");
 current.addEventListener("click", () => {
   getLocation();
 });
+
+const onSuccess = async (pos) => {
+  const crd = pos.coords;
+  latitude = crd.latitude;
+  longitude = crd.longitude;
+  console.log(latitude, longitude);
+  setWeatherInfo(latitude, longitude);
+};
+
+const onError = (err) => {
+  console.error("Geolocation error:", err.code, err.message);
+};
+function getLocation() {
+  if ("geolocation" in navigator) {
+    navigator.geolocation.getCurrentPosition(onSuccess, onError, {
+      enableHighAccuracy: true,
+    });
+  } else {
+    console.error("Geolocation not supported by this browser.");
+  }
+}
+
+getLocation();

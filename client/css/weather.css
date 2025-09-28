@@ -238,7 +238,7 @@ body {
 }
 
 .progress-track {
-  min-width: 110%;
+  min-width: inherit;
   height: 20px;
 
   border-radius: 100px;
